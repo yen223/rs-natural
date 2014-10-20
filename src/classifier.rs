@@ -35,8 +35,8 @@ impl<'a> NaiveBayesClassifier<'a> {
     NaiveBayesClassifier{ documents: HashMap::new(), total_document_count: 0 }
   }
   
-  pub fn train<T:Str, C:Str>(&mut self, text: T, classification: C) {
-    let classification_map = match self.documents.entry(classification.as_slice().to_string()) {
+  pub fn train(&mut self, text: &str, classification: &str) {
+    let classification_map = match self.documents.entry(classification.to_string()) {
       Vacant(entry) => entry.set(HashMap::new()),
       Occupied(entry) => entry.into_mut()
     };
@@ -50,7 +50,7 @@ impl<'a> NaiveBayesClassifier<'a> {
     self.total_document_count += 1;
   }
   
-  pub fn guess<T:Str>(&'a self, text: T) -> &'a str {
+  pub fn guess(&'a self, text: &str) -> &'a str {
     let stemmed_and_tokenized = get_tokenized_and_stemmed(text);
     
     let mut label_probabilities = PriorityQueue::new();
@@ -74,8 +74,7 @@ impl<'a> NaiveBayesClassifier<'a> {
   }
 }
 
-fn get_tokenized_and_stemmed<'t, T>(text: T) -> Vec<MaybeOwned<'t>> 
-    where T:Str
+fn get_tokenized_and_stemmed<'t>(text: &str) -> Vec<MaybeOwned<'t>> 
 {
   let tokenized_text = tokenize(text.as_slice())
                                     .iter()

@@ -6,14 +6,14 @@ use std::io::File;
 #[test]
 fn test_basic_usage() {
   let mut nbc = NaiveBayesClassifier::new();
-  nbc.train("Debug derive traits into impls that I use with my rust code", 
-            "rust");
-  nbc.train("deriving show for your impl can definitely help you debug your rust code", 
-            "rust");
-  nbc.train("Use more metaprogramming when writing ruby", "ruby");
-  nbc.train("Classes can have either instance variables or class variables", "ruby");
-  assert_eq!(nbc.guess("debug this rust code"), "rust");
-  assert_eq!(nbc.guess("This class is about ruby"), "ruby");
+  nbc.train("Debug derive traits into impls that I use with my rust code".as_slice(), 
+            "rust".as_slice());
+  nbc.train("deriving show for your impl can definitely help you debug your rust code".as_slice(), 
+            "rust".as_slice());
+  nbc.train("Use more metaprogramming when writing ruby".as_slice(), "ruby".as_slice());
+  nbc.train("Classes can have either instance variables or class variables".as_slice(), "ruby".as_slice());
+  assert_eq!(nbc.guess("debug this rust code"), "rust".as_slice());
+  assert_eq!(nbc.guess("This class is about ruby"), "ruby".as_slice());
 }
 
 #[test]
@@ -29,12 +29,12 @@ fn test_medium_dataset() {
   let mut nbc = NaiveBayesClassifier::new();
   for &(path, class) in test_set.iter(){
     let text = File::open(&Path::new(path)).read_to_string().unwrap();
-    nbc.train(text, class);
+    nbc.train(text.as_slice(), class.as_slice());
   }
   let guess_text = File::open(&Path::new("tests/test_data/medium8.txt"))
                         .read_to_string()
                         .unwrap();
-  let guess = nbc.guess(guess_text);
+  let guess = nbc.guess(guess_text.as_slice());
 
   assert_eq!(guess, "positive".as_slice());
 
@@ -43,6 +43,6 @@ fn test_medium_dataset() {
 #[test]
 fn no_fail_on_empty_strings() {
   let mut nbc = NaiveBayesClassifier::new();
-  nbc.train(String::from_str(""), String::from_str(""));
+  nbc.train("".as_slice(), "".as_slice());
   assert!(true);
 }
