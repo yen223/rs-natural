@@ -1,12 +1,11 @@
-pub fn tokenize(text: &str) -> Vec<&str> {
-  let vec_with_empty: Vec<&str> = text.split(|c: char| char_is_token(c)).collect();
-  let mut ret_vec = Vec::new();
-  for s in vec_with_empty.into_iter() {
-    if s.len() > 0 {
-      ret_vec.push(s);
-    }
-  }
-  ret_vec
+use std::str::CharSplits;
+
+pub fn tokenize<'a>(text: &'a str) -> Vec<&'a str> {
+    // let vec_with_empty: Vec<&str> = text.split(|c: char| char_is_token(c)).collect();
+    let ret_vec = text.split(|c:char| char_is_token(c))
+                      .filter(|s| s.len()>0)
+                      .collect();
+    ret_vec
 }
 
 fn char_is_token(a: char) -> bool {

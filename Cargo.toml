@@ -6,3 +6,5 @@ authors = [ "chris@cjqed.com" ]
 
 [dependencies.stem]
 git = "https://github.com/cjqed/rust-stem"
+
+bench = true
