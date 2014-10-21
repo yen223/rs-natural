@@ -1,5 +1,3 @@
-use std::str::CharSplits;
-
 pub fn tokenize<'a>(text: &'a str) -> Vec<&'a str> {
     // let vec_with_empty: Vec<&str> = text.split(|c: char| char_is_token(c)).collect();
     let ret_vec = text.split(|c:char| char_is_token(c))
